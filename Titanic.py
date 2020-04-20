@@ -1,6 +1,11 @@
 import numpy as np
 import pandas as pd
 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.neighbors import KNeighborsClassifier
+
 path_test = './data/test.csv'
 path_train = './data/train.csv'
 
@@ -64,3 +69,56 @@ print(df_test.shape)
 print(df_train.shape)
 print(df_test.head())
 print(df_train.head())
+
+#Train
+X = np.array(df_train.drop(['Survived'], 1))
+y = np.array(df_train['Survived'])
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+logreg = LogisticRegression()
+logreg.fit(X_train, y_train)
+Y_pred = logreg.predict(X_test)
+
+print("")
+print('Logistic regression:')
+print(logreg.score(X_train, y_train))
+
+svc = SVC()
+svc.fit(X_train, y_train)
+Y_pred = svc.predict(X_test)
+
+print("")
+print('Vectors support:')
+print(svc.score(X_train, y_train))
+
+knn =KNeighborsClassifier(n_neighbors=3)
+knn.fit(X_train, y_train)
+Y_pred = knn.predict(X_test)
+
+print("")
+print('Neighbors:')
+print(knn.score(X_train, y_train))
+
+ids = df_test['PassengerId']
+
+prediction_logreg = logreg.predict(df_test.drop('PassengerId', axis = 1))
+out_logreg = pd.DataFrame({'PassengerId': ids, 'Survived': prediction_logreg})
+
+print("")
+print('Logistic Regression: ')
+print(out_logreg.head())
+
+prediction_svc = svc.predict(df_test.drop('PassengerId', axis = 1))
+out_svc = pd.DataFrame({'PassengerId': ids, 'Survived': prediction_svc})
+
+print("")
+print('Vectors support:')
+print(out_svc.head())
+
+prediction_knn = knn.predict(df_test.drop('PassengerId', axis = 1))
+out_knn = pd.DataFrame({'PassengerId': ids, 'Survived': prediction_knn})
+
+print("")
+print('Neighbors:')
+print(out_knn.head())
