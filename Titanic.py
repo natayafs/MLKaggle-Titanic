@@ -7,9 +7,6 @@ path_train = './data/train.csv'
 df_test = pd.read_csv(path_test)
 df_train = pd.read_csv(path_train)
 
-#print(df_test.head())
-#print(df_train.head())
-
 print("")
 print("--------Amount of data--------")
 print(df_test.shape)
@@ -53,3 +50,17 @@ df_train['Age'] = pd.cut(df_train['Age'], bins, labels = names)
 df_test.drop(['Cabin'], axis = 1, inplace=True)
 df_train.drop(['Cabin'], axis = 1, inplace=True)
 
+df_test.drop(['Name', 'Ticket'], axis = 1)
+df_train.drop(['PassengerId', 'Name', 'Ticket'], axis = 1)
+
+df_test.dropna(axis = 0, how = 'any', inplace=True)
+df_train.dropna(axis = 0, how = 'any', inplace=True)
+
+print("")
+print("--------New dataset--------")
+print(pd.isnull(df_test).sum())
+print(pd.isnull(df_train).sum())
+print(df_test.shape)
+print(df_train.shape)
+print(df_test.head())
+print(df_train.head())
