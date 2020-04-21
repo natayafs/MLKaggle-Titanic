@@ -55,8 +55,8 @@ df_train['Age'] = pd.cut(df_train['Age'], bins, labels = names)
 df_test.drop(['Cabin'], axis = 1, inplace=True)
 df_train.drop(['Cabin'], axis = 1, inplace=True)
 
-df_test.drop(['Name', 'Ticket'], axis = 1)
-df_train.drop(['PassengerId', 'Name', 'Ticket'], axis = 1)
+df_test = df_test.drop(['Name', 'Ticket'], axis = 1, inplace=True)
+df_train = df_train.drop(['PassengerId', 'Name', 'Ticket'], axis = 1, inplace=True)
 
 df_test.dropna(axis = 0, how = 'any', inplace=True)
 df_train.dropna(axis = 0, how = 'any', inplace=True)
